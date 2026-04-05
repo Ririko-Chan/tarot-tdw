@@ -5,7 +5,7 @@ export function renderHomeScreen(root, { onDraw } = {}) {
       <h1>Tarot TDW</h1>
       <p>Выберите количество карт и начните расклад.</p>
       <label for="card-count">Количество карт: <strong id="card-count-value">1</strong></label>
-      <input id="card-count" type="range" min="1" max="7" step="1" value="1" />
+      <input id="card-count" type="range" min="1" max="24" step="1" value="1" />
       <button id="draw-btn">Вытянуть</button>
     </section>
   `;
