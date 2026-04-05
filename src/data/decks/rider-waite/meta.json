@@ -1,0 +1,7 @@
+{
+  "id": "rider-waite",
+  "name": "Rider-Waite",
+  "backImage": "/assets/images/rider/back.png",
+  "description": "Классическая колода Райдера-Уэйта",
+  "cardsFile": "./cards.json"
+}
