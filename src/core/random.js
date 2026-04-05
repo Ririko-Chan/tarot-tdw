@@ -12,6 +12,6 @@ export function rollChance(percent, rng = Math.random) {
   return rng() * 100 < p;
 }
 
-export function createId(prefix = "reading") {
-  return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 10_000)}`;
+export function createId(prefix = "reading", rng = Math.random) {
+  return `${prefix}_${Date.now()}_${Math.floor(rng() * 10_000)}`;
 }
