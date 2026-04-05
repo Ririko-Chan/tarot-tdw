@@ -1,1 +1,9 @@
-
+[
+  {
+    "id": 0,
+    "name": "Шут",
+    "image": "/assets/images/rider/0.jpg",
+    "meaning_up": "...",
+    "meaning_rev": "..."
+  }
+]
