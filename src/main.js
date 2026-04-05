@@ -1,7 +1,7 @@
-import { renderHomeScreen } from "./ui/screens/home-screen.js";
-import { renderReadingScreen } from "./ui/screens/reading-screen.js";
-import { createReadingUseCase } from "./features/readings/create-reading.js";
-import { registerServiceWorker } from "./pwa/register-sw.js";
+import { renderHomeScreen } from "./src/ui/screens/home-screen.js";
+import { renderReadingScreen } from "./src/ui/screens/reading-screen.js";
+import { createReadingUseCase } from "./src/features/readings/create-reading.js";
+import { registerServiceWorker } from "./src/pwa/register-sw.js";
 
 function bootstrap() {
   const root = document.getElementById("app");
