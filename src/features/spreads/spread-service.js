@@ -1,0 +1,16 @@
+import spreads from "../../data/spreads.json";
+import { assertSpread } from "../../core/validators.js";
+
+export function getSpreads() {
+  return spreads.map(assertSpread);
+}
+
+export function ensureCardCount(spread, cardCount) {
+  if (typeof spread.cardCount === "number") {
+    return spread.cardCount;
+  }
+
+  const min = spread.cardCount?.min ?? 1;
+  const max = spread.cardCount?.max ?? 24;
+  return Math.max(min, Math.min(max, cardCount));
+}
