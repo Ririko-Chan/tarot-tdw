@@ -1,14 +1,93 @@
+function sanitizeText(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function buildPreDrawModal() {
+  return `
+    <dialog id="pre-draw-modal">
+      <form method="dialog" id="pre-draw-form" class="pre-draw-form">
+        <h2>Параметры расклада</h2>
+
+        <label for="question-input">Ваш вопрос</label>
+        <textarea id="question-input" name="question" rows="3" placeholder="Например: что поможет мне в ближайший месяц?"></textarea>
+
+        <label for="context-select">Тема расклада</label>
+        <select id="context-select" name="context">
+          <option value="general">Общий</option>
+          <option value="relationships">Отношения</option>
+          <option value="career">Карьера</option>
+          <option value="advice">Совет</option>
+        </select>
+
+        <menu>
+          <button value="cancel" type="button" id="cancel-draw-btn">Отмена</button>
+          <button value="confirm" type="submit">Сделать расклад</button>
+        </menu>
+      </form>
+    </dialog>
+  `;
+}
+
 export function renderHomeScreen(root, { onDraw } = {}) {
   if (!root) return;
   root.innerHTML = `
     <section>
       <h1>Tarot TDW</h1>
       <p>Выберите количество карт и начните расклад.</p>
+      <label for="card-count">Количество карт: <strong id="card-count-value">1</strong></label>
+      <input id="card-count" type="range" min="1" max="7" step="1" value="1" />
       <button id="draw-btn">Вытянуть</button>
+      ${buildPreDrawModal()}
     </section>
   `;
 
+  const cardCountInput = root.querySelector("#card-count");
+  const cardCountValue = root.querySelector("#card-count-value");
+  const modal = root.querySelector("#pre-draw-modal");
+  const form = root.querySelector("#pre-draw-form");
+  const cancelBtn = root.querySelector("#cancel-draw-btn");
+
+  cardCountInput?.addEventListener("input", () => {
+    if (!cardCountValue) return;
+    cardCountValue.textContent = cardCountInput.value;
+  });
+
   root.querySelector("#draw-btn")?.addEventListener("click", () => {
-    onDraw?.();
+    if (typeof modal?.showModal === "function") {
+      modal.showModal();
+      return;
+    }
+
+    const fallbackQuestion = window.prompt("Введите вопрос", "") || "";
+    const fallbackContext = window.prompt("Тема (general/relationships/career/advice)", "general") || "general";
+    onDraw?.({
+      cardCount: Number(cardCountInput?.value) || 1,
+      question: sanitizeText(fallbackQuestion.trim()),
+      context: fallbackContext
+    });
+  });
+
+  cancelBtn?.addEventListener("click", () => {
+    modal?.close("cancel");
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const questionInput = form.querySelector("#question-input");
+    const contextSelect = form.querySelector("#context-select");
+
+    onDraw?.({
+      cardCount: Number(cardCountInput?.value) || 1,
+      question: sanitizeText(questionInput?.value?.trim() || ""),
+      context: contextSelect?.value || "general"
+    });
+
+    modal?.close("confirm");
   });
 }

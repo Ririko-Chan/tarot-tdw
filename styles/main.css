@@ -30,6 +30,17 @@ section {
   padding: 1rem;
 }
 
+
+label {
+  display: block;
+  margin: 0.75rem 0 0.35rem;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 button {
   background: var(--accent);
   color: #fff;
@@ -37,4 +48,69 @@ button {
   border-radius: 10px;
   padding: 0.6rem 1rem;
   cursor: pointer;
+}
+
+#pre-draw-modal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  width: min(560px, calc(100% - 2rem));
+  background: #17132b;
+  color: var(--fg);
+}
+
+#pre-draw-modal::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.pre-draw-form {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem;
+}
+
+.pre-draw-form textarea,
+.pre-draw-form select {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--fg);
+  padding: 0.55rem 0.65rem;
+}
+
+.pre-draw-form menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.reading-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.reading-card-item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.card-image {
+  width: 90px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.card-image--reversed {
+  transform: rotate(180deg);
 }
