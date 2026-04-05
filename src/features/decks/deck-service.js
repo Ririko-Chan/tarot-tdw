@@ -1,5 +1,5 @@
-import cards from "../../data/decks/rider-waite/cards.json";
-import meta from "../../data/decks/rider-waite/meta.json";
+import cards from "../../data/decks/rider-waite/cards.json" with { type: "json" };
+import meta from "../../data/decks/rider-waite/meta.json" with { type: "json" };
 import { assertCard } from "../../core/validators.js";
 
 const DEFAULT_DECK_ID = "rider-waite";

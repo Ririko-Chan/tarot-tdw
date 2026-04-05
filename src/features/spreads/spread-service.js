@@ -1,4 +1,4 @@
-import spreads from "../../data/spreads.json";
+import spreads from "../../data/spreads.json" with { type: "json" };
 import { assertSpread } from "../../core/validators.js";
 
 export function getSpreads() {
