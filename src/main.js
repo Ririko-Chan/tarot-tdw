@@ -8,11 +8,11 @@ function bootstrap() {
   if (!root) return;
 
   renderHomeScreen(root, {
-    onDraw: () => {
+    onDraw: ({ cardCount = 1 } = {}) => {
       const reading = createReadingUseCase({
         question: "Что важно сейчас?",
         context: "general",
-        cardCount: 1
+        cardCount
       });
 
       renderReadingScreen(root, reading);
