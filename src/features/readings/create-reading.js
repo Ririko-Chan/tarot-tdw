@@ -1,4 +1,4 @@
-import hints from "../../data/hints.json";
+import hints from "../../data/hints.json" with { type: "json" };
 import { createReading } from "../../core/reading-engine.js";
 import { getDeck } from "../decks/deck-service.js";
 import { getSettings } from "../settings/settings-repo.js";

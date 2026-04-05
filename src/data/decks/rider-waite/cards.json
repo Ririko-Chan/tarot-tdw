@@ -5,7 +5,7 @@
     "arcana": "major",
     "number": 0,
     "suit": null,
-    "image": "/assets/images/rider/0.jpg",
+    "image": "./assets/images/rider/0.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -37,7 +37,7 @@
     "arcana": "major",
     "number": 1,
     "suit": null,
-    "image": "/assets/images/rider/mag.jpg",
+    "image": "./assets/images/rider/mag.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -69,7 +69,7 @@
     "arcana": "major",
     "number": 2,
     "suit": null,
-    "image": "/assets/images/rider/zhrica.jpg",
+    "image": "./assets/images/rider/zhrica.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -101,7 +101,7 @@
     "arcana": "major",
     "number": 3,
     "suit": null,
-    "image": "/assets/images/rider/impress.jpg",
+    "image": "./assets/images/rider/impress.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -133,7 +133,7 @@
     "arcana": "major",
     "number": 4,
     "suit": null,
-    "image": "/assets/images/rider/imperor.jpg",
+    "image": "./assets/images/rider/imperor.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -165,7 +165,7 @@
     "arcana": "major",
     "number": 5,
     "suit": null,
-    "image": "/assets/images/rider/hierofant.jpg",
+    "image": "./assets/images/rider/hierofant.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -197,7 +197,7 @@
     "arcana": "major",
     "number": 6,
     "suit": null,
-    "image": "/assets/images/rider/lovers.jpg",
+    "image": "./assets/images/rider/lovers.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -229,7 +229,7 @@
     "arcana": "major",
     "number": 7,
     "suit": null,
-    "image": "/assets/images/rider/chariot.jpg",
+    "image": "./assets/images/rider/chariot.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -261,7 +261,7 @@
     "arcana": "major",
     "number": 8,
     "suit": null,
-    "image": "/assets/images/rider/justise.jpg",
+    "image": "./assets/images/rider/justise.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -293,7 +293,7 @@
     "arcana": "major",
     "number": 9,
     "suit": null,
-    "image": "/assets/images/rider/hermit.jpg",
+    "image": "./assets/images/rider/hermit.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -325,7 +325,7 @@
     "arcana": "major",
     "number": 10,
     "suit": null,
-    "image": "/assets/images/rider/fortune.jpg",
+    "image": "./assets/images/rider/fortune.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -357,7 +357,7 @@
     "arcana": "major",
     "number": 11,
     "suit": null,
-    "image": "/assets/images/rider/strenghch.jpg",
+    "image": "./assets/images/rider/strenghch.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -389,7 +389,7 @@
     "arcana": "major",
     "number": 12,
     "suit": null,
-    "image": "/assets/images/rider/hanged_men.jpg",
+    "image": "./assets/images/rider/hanged_men.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -421,7 +421,7 @@
     "arcana": "major",
     "number": 13,
     "suit": null,
-    "image": "/assets/images/rider/death.jpg",
+    "image": "./assets/images/rider/death.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -453,7 +453,7 @@
     "arcana": "major",
     "number": 14,
     "suit": null,
-    "image": "/assets/images/rider/temperam.jpg",
+    "image": "./assets/images/rider/temperam.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -485,7 +485,7 @@
     "arcana": "major",
     "number": 15,
     "suit": null,
-    "image": "/assets/images/rider/devil.jpg",
+    "image": "./assets/images/rider/devil.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -516,7 +516,7 @@
     "arcana": "major",
     "number": 16,
     "suit": null,
-    "image": "/assets/images/rider/tower.jpg",
+    "image": "./assets/images/rider/tower.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -548,7 +548,7 @@
     "arcana": "major",
     "number": 17,
     "suit": null,
-    "image": "/assets/images/rider/stare.jpg",
+    "image": "./assets/images/rider/stare.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -580,7 +580,7 @@
     "arcana": "major",
     "number": 18,
     "suit": null,
-    "image": "/assets/images/rider/moon.jpg",
+    "image": "./assets/images/rider/moon.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -612,7 +612,7 @@
     "arcana": "major",
     "number": 19,
     "suit": null,
-    "image": "/assets/images/rider/sun.jpg",
+    "image": "./assets/images/rider/sun.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -644,7 +644,7 @@
     "arcana": "major",
     "number": 20,
     "suit": null,
-    "image": "/assets/images/rider/sud.jpg",
+    "image": "./assets/images/rider/sud.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -676,7 +676,7 @@
     "arcana": "major",
     "number": 21,
     "suit": null,
-    "image": "/assets/images/rider/world.jpg",
+    "image": "./assets/images/rider/world.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -708,7 +708,7 @@
     "arcana": "minor",
     "number": 1,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands01.jpg",
+    "image": "./assets/images/rider/wands01.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -740,7 +740,7 @@
     "arcana": "minor",
     "number": 2,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands02.jpg",
+    "image": "./assets/images/rider/wands02.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -772,7 +772,7 @@
     "arcana": "minor",
     "number": 3,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands03.jpg",
+    "image": "./assets/images/rider/wands03.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -804,7 +804,7 @@
     "arcana": "minor",
     "number": 4,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands04.jpg",
+    "image": "./assets/images/rider/wands04.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -836,7 +836,7 @@
     "arcana": "minor",
     "number": 5,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands05.jpg",
+    "image": "./assets/images/rider/wands05.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -868,7 +868,7 @@
     "arcana": "minor",
     "number": 6,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands06.jpg",
+    "image": "./assets/images/rider/wands06.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -900,7 +900,7 @@
     "arcana": "minor",
     "number": 7,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands07.jpg",
+    "image": "./assets/images/rider/wands07.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -932,7 +932,7 @@
     "arcana": "minor",
     "number": 8,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands08.jpg",
+    "image": "./assets/images/rider/wands08.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -964,7 +964,7 @@
     "arcana": "minor",
     "number": 9,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands09.jpg",
+    "image": "./assets/images/rider/wands09.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -996,7 +996,7 @@
     "arcana": "minor",
     "number": 10,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands10.jpg",
+    "image": "./assets/images/rider/wands10.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1028,7 +1028,7 @@
     "arcana": "minor",
     "number": 11,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands11.jpg",
+    "image": "./assets/images/rider/wands11.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1060,7 +1060,7 @@
     "arcana": "minor",
     "number": 12,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands12.jpg",
+    "image": "./assets/images/rider/wands12.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1092,7 +1092,7 @@
     "arcana": "minor",
     "number": 13,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands13.jpg",
+    "image": "./assets/images/rider/wands13.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1124,7 +1124,7 @@
     "arcana": "minor",
     "number": 14,
     "suit": "Жезлы",
-    "image": "/assets/images/rider/wands14.jpg",
+    "image": "./assets/images/rider/wands14.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1156,7 +1156,7 @@
     "arcana": "minor",
     "number": 1,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups01.jpg",
+    "image": "./assets/images/rider/cups01.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1188,7 +1188,7 @@
     "arcana": "minor",
     "number": 2,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups02.jpg",
+    "image": "./assets/images/rider/cups02.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1220,7 +1220,7 @@
     "arcana": "minor",
     "number": 3,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups03.jpg",
+    "image": "./assets/images/rider/cups03.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1252,7 +1252,7 @@
     "arcana": "minor",
     "number": 4,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups04.jpg",
+    "image": "./assets/images/rider/cups04.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1284,7 +1284,7 @@
     "arcana": "minor",
     "number": 5,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups05.jpg",
+    "image": "./assets/images/rider/cups05.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1316,7 +1316,7 @@
     "arcana": "minor",
     "number": 6,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups06.jpg",
+    "image": "./assets/images/rider/cups06.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1348,7 +1348,7 @@
     "arcana": "minor",
     "number": 7,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups07.jpg",
+    "image": "./assets/images/rider/cups07.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1380,7 +1380,7 @@
     "arcana": "minor",
     "number": 8,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups08.jpg",
+    "image": "./assets/images/rider/cups08.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1412,7 +1412,7 @@
     "arcana": "minor",
     "number": 9,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups09.jpg",
+    "image": "./assets/images/rider/cups09.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1444,7 +1444,7 @@
     "arcana": "minor",
     "number": 10,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups10.jpg",
+    "image": "./assets/images/rider/cups10.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1476,7 +1476,7 @@
     "arcana": "minor",
     "number": 11,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups11.jpg",
+    "image": "./assets/images/rider/cups11.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1508,7 +1508,7 @@
     "arcana": "minor",
     "number": 12,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups12.jpg",
+    "image": "./assets/images/rider/cups12.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1540,7 +1540,7 @@
     "arcana": "minor",
     "number": 13,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups13.jpg",
+    "image": "./assets/images/rider/cups13.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1572,7 +1572,7 @@
     "arcana": "minor",
     "number": 14,
     "suit": "Кубки",
-    "image": "/assets/images/rider/cups14.jpg",
+    "image": "./assets/images/rider/cups14.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1604,7 +1604,7 @@
     "arcana": "minor",
     "number": 1,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords01.jpg",
+    "image": "./assets/images/rider/swords01.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1636,7 +1636,7 @@
     "arcana": "minor",
     "number": 2,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords02.jpg",
+    "image": "./assets/images/rider/swords02.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1668,7 +1668,7 @@
     "arcana": "minor",
     "number": 3,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords03.jpg",
+    "image": "./assets/images/rider/swords03.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1700,7 +1700,7 @@
     "arcana": "minor",
     "number": 4,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords04.jpg",
+    "image": "./assets/images/rider/swords04.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1732,7 +1732,7 @@
     "arcana": "minor",
     "number": 5,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords05.jpg",
+    "image": "./assets/images/rider/swords05.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1764,7 +1764,7 @@
     "arcana": "minor",
     "number": 6,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords06.jpg",
+    "image": "./assets/images/rider/swords06.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1796,7 +1796,7 @@
     "arcana": "minor",
     "number": 7,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords07.jpg",
+    "image": "./assets/images/rider/swords07.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1828,7 +1828,7 @@
     "arcana": "minor",
     "number": 8,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords08.jpg",
+    "image": "./assets/images/rider/swords08.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1860,7 +1860,7 @@
     "arcana": "minor",
     "number": 9,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords09.jpg",
+    "image": "./assets/images/rider/swords09.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1892,7 +1892,7 @@
     "arcana": "minor",
     "number": 10,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords10.jpg",
+    "image": "./assets/images/rider/swords10.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1924,7 +1924,7 @@
     "arcana": "minor",
     "number": 11,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords11.jpg",
+    "image": "./assets/images/rider/swords11.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1956,7 +1956,7 @@
     "arcana": "minor",
     "number": 12,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords12.jpg",
+    "image": "./assets/images/rider/swords12.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -1988,7 +1988,7 @@
     "arcana": "minor",
     "number": 13,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords13.jpg",
+    "image": "./assets/images/rider/swords13.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2020,7 +2020,7 @@
     "arcana": "minor",
     "number": 14,
     "suit": "Мечи",
-    "image": "/assets/images/rider/swords14.jpg",
+    "image": "./assets/images/rider/swords14.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2052,7 +2052,7 @@
     "arcana": "minor",
     "number": 1,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents01.jpg",
+    "image": "./assets/images/rider/pents01.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2084,7 +2084,7 @@
     "arcana": "minor",
     "number": 2,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents02.jpg",
+    "image": "./assets/images/rider/pents02.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2116,7 +2116,7 @@
     "arcana": "minor",
     "number": 3,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents03.jpg",
+    "image": "./assets/images/rider/pents03.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2148,7 +2148,7 @@
     "arcana": "minor",
     "number": 4,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents04.jpg",
+    "image": "./assets/images/rider/pents04.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2180,7 +2180,7 @@
     "arcana": "minor",
     "number": 5,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents05.jpg",
+    "image": "./assets/images/rider/pents05.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2212,7 +2212,7 @@
     "arcana": "minor",
     "number": 6,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents06.jpg",
+    "image": "./assets/images/rider/pents06.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2244,7 +2244,7 @@
     "arcana": "minor",
     "number": 7,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents07.jpg",
+    "image": "./assets/images/rider/pents07.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2276,7 +2276,7 @@
     "arcana": "minor",
     "number": 8,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents08.jpg",
+    "image": "./assets/images/rider/pents08.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2308,7 +2308,7 @@
     "arcana": "minor",
     "number": 9,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents09.jpg",
+    "image": "./assets/images/rider/pents09.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2340,7 +2340,7 @@
     "arcana": "minor",
     "number": 10,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents10.jpg",
+    "image": "./assets/images/rider/pents10.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2372,7 +2372,7 @@
     "arcana": "minor",
     "number": 11,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents11.jpg",
+    "image": "./assets/images/rider/pents11.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2404,7 +2404,7 @@
     "arcana": "minor",
     "number": 12,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents12.jpg",
+    "image": "./assets/images/rider/pents12.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2436,7 +2436,7 @@
     "arcana": "minor",
     "number": 13,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents13.jpg",
+    "image": "./assets/images/rider/pents13.jpg",
     "meanings": {
       "upright": {
         "keywords": [
@@ -2468,7 +2468,7 @@
     "arcana": "minor",
     "number": 14,
     "suit": "Пентакли",
-    "image": "/assets/images/rider/pents14.jpg",
+    "image": "./assets/images/rider/pents14.jpg",
     "meanings": {
       "upright": {
         "keywords": [

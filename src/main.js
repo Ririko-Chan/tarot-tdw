@@ -1,18 +1,18 @@
-import { renderHomeScreen } from "./src/ui/screens/home-screen.js";
-import { renderReadingScreen } from "./src/ui/screens/reading-screen.js";
-import { createReadingUseCase } from "./src/features/readings/create-reading.js";
-import { registerServiceWorker } from "./src/pwa/register-sw.js";
+import { renderHomeScreen } from "./ui/screens/home-screen.js";
+import { renderReadingScreen } from "./ui/screens/reading-screen.js";
+import { createReadingUseCase } from "./features/readings/create-reading.js";
+import { registerServiceWorker } from "./pwa/register-sw.js";
 
 function bootstrap() {
   const root = document.getElementById("app");
   if (!root) return;
 
   renderHomeScreen(root, {
-    onDraw: () => {
+    onDraw: ({ cardCount = 1, question = "", context = "general" } = {}) => {
       const reading = createReadingUseCase({
-        question: "Что важно сейчас?",
-        context: "general",
-        cardCount: 1
+        question: question || "Что важно сейчас?",
+        context,
+        cardCount
       });
 
       renderReadingScreen(root, reading);
