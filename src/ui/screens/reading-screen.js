@@ -1,7 +1,7 @@
 import { buildMeaningOverlay } from "../components/card-meaning-overlay.js";
 import { renderTarotCard } from "../components/tarot-card.js";
 
-const CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
+const DEFAULT_CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
 const APPEAR_DELAY_MS = 180;
 const FLIP_DELAY_MS = 180;
 const FIRST_CARD_DELAY_MS = 120;
@@ -76,6 +76,7 @@ function resolveStepDelay(baseStep, count, maxStageMs) {
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   if (!root) return;
+  const cardBackImage = reading?.deck?.backImage || DEFAULT_CARD_BACK_IMAGE;
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
@@ -86,7 +87,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         <button type="button" class="meaning-open-btn meaning-open-btn--disabled" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}" disabled>
           <img
             class="card-image card-image--is-back ${reversedClass}"
-            src="${CARD_BACK_IMAGE}"
+            src="${escapeHtml(cardBackImage)}"
             alt="Рубашка карты"
             loading="lazy"
             data-front-image="${escapeHtml(viewModel.image)}"
