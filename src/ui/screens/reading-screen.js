@@ -104,6 +104,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
             loading="lazy"
             data-front-image="${escapeHtml(viewModel.image)}"
             data-front-title="${escapeHtml(viewModel.title)}"
+            data-is-reversed="${isReversed ? "true" : "false"}"
           />
         </button>
       </li>
@@ -228,7 +229,9 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         const image = button.querySelector(".card-image");
         if (!image) return;
 
-        image.classList.add("card-image--flipping");
+        const isReversed = image.getAttribute("data-is-reversed") === "true";
+        image.classList.add(isReversed ? "card-image--flipping-reversed" : "card-image--flipping");
+
         window.setTimeout(() => {
           const frontImage = image.getAttribute("data-front-image") || "";
           const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
@@ -237,10 +240,12 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
           image.setAttribute("alt", frontTitle);
           image.classList.remove("card-image--is-back");
           image.classList.remove("card-image--back-reversed");
+          image.classList.toggle("card-image--front-reversed", isReversed);
         }, FLIP_HALF_TURN_MS);
 
         window.setTimeout(() => {
           image.classList.remove("card-image--flipping");
+          image.classList.remove("card-image--flipping-reversed");
         }, FLIP_ANIMATION_MS);
       }, flipStartDelay + (index * FLIP_STAGGER_MS));
     });
