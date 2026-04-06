@@ -216,6 +216,8 @@ button {
   cursor: pointer;
   border-radius: 10px;
   display: inline-flex;
+  perspective: 900px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .meaning-open-btn--disabled {
@@ -234,7 +236,10 @@ button {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.04);
-  transition: transform 0.2s ease;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-image--is-back {
@@ -243,31 +248,72 @@ button {
 
 .meaning-open-btn:hover .card-image {
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
-.card-image--reversed {
+.meaning-open-btn:active .card-image {
+  transform: translateY(0) scale(0.98);
+}
+
+.card-image--back-reversed {
   transform: rotate(180deg);
 }
 
-.meaning-open-btn:hover .card-image--reversed {
+.meaning-open-btn:hover .card-image--back-reversed {
   transform: rotate(180deg) translateY(-2px);
+}
+
+.meaning-open-btn:active .card-image--back-reversed {
+  transform: rotate(180deg) translateY(0) scale(0.98);
+}
+
+
+.card-image--front-reversed {
+  transform: rotate(180deg);
+}
+
+.meaning-open-btn:hover .card-image--front-reversed {
+  transform: rotate(180deg) translateY(-2px);
+}
+
+.meaning-open-btn:active .card-image--front-reversed {
+  transform: rotate(180deg) translateY(0) scale(0.98);
 }
 
 .card-image--flipping {
   animation: card-flip 0.46s ease-in-out;
 }
 
+.card-image--flipping-reversed {
+  animation: card-flip-reversed 0.46s ease-in-out;
+}
+
 @keyframes card-flip {
   0% {
-    transform: rotateY(0deg) scaleX(1);
+    transform: rotateY(0deg) scale(1);
   }
 
   50% {
-    transform: rotateY(90deg) scaleX(0.1);
+    transform: rotateY(90deg) scale(0.94);
   }
 
   100% {
-    transform: rotateY(0deg) scaleX(1);
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+
+@keyframes card-flip-reversed {
+  0% {
+    transform: rotate(180deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) rotateY(90deg) scale(0.94);
+  }
+
+  100% {
+    transform: rotate(180deg) scale(1);
   }
 }
 

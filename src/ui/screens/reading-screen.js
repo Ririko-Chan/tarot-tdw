@@ -1,13 +1,19 @@
 import { buildMeaningOverlay } from "../components/card-meaning-overlay.js";
 import { renderTarotCard } from "../components/tarot-card.js";
 
-const CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
-const APPEAR_DELAY_MS = 180;
-const FLIP_DELAY_MS = 180;
-const FIRST_CARD_DELAY_MS = 120;
+const DEFAULT_CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
 const PRELOAD_TIMEOUT_MS = 1200;
-const MAX_REVEAL_STAGE_MS = 1200;
-const MAX_FLIP_STAGE_MS = 1200;
+const REVEAL_STAGGER_MS = 120;
+const FLIP_STAGGER_MS = 150;
+const FLIP_HALF_TURN_MS = 220;
+const FLIP_ANIMATION_MS = 460;
+
+function resolveCardBackImage(backImage) {
+  const candidate = String(backImage || "").trim();
+  if (!candidate) return DEFAULT_CARD_BACK_IMAGE;
+  if (candidate.startsWith("/")) return `.${candidate}`;
+  return candidate;
+}
 
 function escapeHtml(value) {
   return String(value || "")
@@ -68,29 +74,37 @@ function preloadCardFrontImages(cardButtons = []) {
   return Promise.allSettled(preloadTasks);
 }
 
-function resolveStepDelay(baseStep, count, maxStageMs) {
-  const safeCount = Math.max(1, count);
-  const adaptiveStep = Math.floor(maxStageMs / safeCount);
-  return Math.max(40, Math.min(baseStep, adaptiveStep));
+function preloadImages(imageSources = []) {
+  const uniqueSources = Array.from(new Set(imageSources.filter(Boolean)));
+  const preloadTasks = uniqueSources.map((src) => new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+    image.src = src;
+  }));
+  return Promise.allSettled(preloadTasks);
 }
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   if (!root) return;
+  const cardBackImage = resolveCardBackImage(reading?.deck?.backImage);
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
-    const reversedClass = viewModel.orientation === "reversed" ? "card-image--reversed" : "";
+    const isReversed = viewModel.orientation === "reversed";
+    const backReversedClass = isReversed ? "card-image--back-reversed" : "";
 
     return `
       <li class="reading-card-item reading-card-item--hidden" data-card-index="${index}">
         <button type="button" class="meaning-open-btn meaning-open-btn--disabled" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}" disabled>
           <img
-            class="card-image card-image--is-back ${reversedClass}"
-            src="${CARD_BACK_IMAGE}"
+            class="card-image card-image--is-back ${backReversedClass}"
+            src="${escapeHtml(cardBackImage)}"
             alt="Рубашка карты"
             loading="lazy"
             data-front-image="${escapeHtml(viewModel.image)}"
             data-front-title="${escapeHtml(viewModel.title)}"
+            data-is-reversed="${isReversed ? "true" : "false"}"
           />
         </button>
       </li>
@@ -128,8 +142,17 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   const toastEl = root.querySelector("#bottom-toast");
   const cardItems = Array.from(root.querySelectorAll(".reading-card-item"));
   const cardButtons = Array.from(root.querySelectorAll(".meaning-open-btn"));
+  const cardImages = Array.from(root.querySelectorAll(".card-image"));
   let toastTimer;
   let isAnimatingCards = cardItems.length > 0;
+
+  cardImages.forEach((image) => {
+    image.addEventListener("error", () => {
+      if (image.getAttribute("src") !== DEFAULT_CARD_BACK_IMAGE) {
+        image.setAttribute("src", DEFAULT_CARD_BACK_IMAGE);
+      }
+    }, { once: true });
+  });
 
   const showToast = (message) => {
     if (!toastEl) return;
@@ -191,24 +214,24 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   });
 
   const startAnimation = () => {
-    const appearStepMs = resolveStepDelay(APPEAR_DELAY_MS, cardItems.length, MAX_REVEAL_STAGE_MS);
-    const flipStepMs = resolveStepDelay(FLIP_DELAY_MS, cardButtons.length, MAX_FLIP_STAGE_MS);
-    const firstCardDelayMs = Math.min(FIRST_CARD_DELAY_MS, appearStepMs);
-
     cardItems.forEach((item, index) => {
       window.setTimeout(() => {
         item.classList.remove("reading-card-item--hidden");
         item.classList.add("reading-card-item--visible");
-      }, firstCardDelayMs + index * appearStepMs);
+      }, index * REVEAL_STAGGER_MS);
     });
 
-    const totalRevealTime = firstCardDelayMs + cardItems.length * appearStepMs;
+    const revealDuration = cardItems.length > 0 ? ((cardItems.length - 1) * REVEAL_STAGGER_MS) : 0;
+    const flipStartDelay = revealDuration + REVEAL_STAGGER_MS;
+
     cardButtons.forEach((button, index) => {
       window.setTimeout(() => {
         const image = button.querySelector(".card-image");
         if (!image) return;
 
-        image.classList.add("card-image--flipping");
+        const isReversed = image.getAttribute("data-is-reversed") === "true";
+        image.classList.add(isReversed ? "card-image--flipping-reversed" : "card-image--flipping");
+
         window.setTimeout(() => {
           const frontImage = image.getAttribute("data-front-image") || "";
           const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
@@ -216,15 +239,18 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
           image.setAttribute("src", frontImage);
           image.setAttribute("alt", frontTitle);
           image.classList.remove("card-image--is-back");
-        }, 220);
+          image.classList.remove("card-image--back-reversed");
+          image.classList.toggle("card-image--front-reversed", isReversed);
+        }, FLIP_HALF_TURN_MS);
 
         window.setTimeout(() => {
           image.classList.remove("card-image--flipping");
-        }, 460);
-      }, totalRevealTime + index * flipStepMs);
+          image.classList.remove("card-image--flipping-reversed");
+        }, FLIP_ANIMATION_MS);
+      }, flipStartDelay + (index * FLIP_STAGGER_MS));
     });
 
-    const totalFlipTime = totalRevealTime + cardButtons.length * flipStepMs + 460;
+    const totalFlipTime = flipStartDelay + (Math.max(cardButtons.length - 1, 0) * FLIP_STAGGER_MS) + FLIP_ANIMATION_MS;
     window.setTimeout(() => {
       isAnimatingCards = false;
       cardButtons.forEach((button) => {
@@ -233,6 +259,8 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
       });
     }, totalFlipTime);
   };
+
+  preloadImages([cardBackImage, ...(reading?.deck?.cardImages || [])]);
 
   Promise.race([
     preloadCardFrontImages(cardButtons),
