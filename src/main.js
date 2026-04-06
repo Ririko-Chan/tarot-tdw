@@ -3,7 +3,7 @@ import { renderReadingScreen } from "./ui/screens/reading-screen.js";
 import { renderSettingsScreen } from "./ui/screens/settings-screen.js";
 import { createReadingUseCase } from "./features/readings/create-reading.js";
 import { saveReading } from "./features/history/history-repo.js";
-import { getSettings } from "./features/settings/settings-repo.js";
+import { getSettings, saveSettings } from "./features/settings/settings-repo.js";
 import { registerServiceWorker } from "./pwa/register-sw.js";
 
 function bootstrap() {
@@ -14,7 +14,8 @@ function bootstrap() {
     renderHomeScreen(root, {
       onSettings: () => {
         renderSettingsScreen(root, getSettings(), {
-          onBack: renderHome
+          onBack: renderHome,
+          onSave: (next) => saveSettings(next)
         });
       },
       onDraw: ({ cardCount = 1, question = "", context = "general", spreadId = "free-1-24" } = {}) => {

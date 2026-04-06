@@ -75,15 +75,26 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         <button id="save-reading-btn" type="button">Сохранить</button>
         <button id="copy-reading-btn" type="button" class="secondary-btn">Копировать</button>
       </div>
-      <p id="reading-action-status" class="reading-action-status" aria-live="polite"></p>
       <p class="reading-help">Нажмите на карту, чтобы открыть её трактовку.</p>
       <ul class="reading-list reading-list--cards">${items}</ul>
       ${renderOverlayModal()}
+      <div id="bottom-toast" class="bottom-toast" aria-live="polite"></div>
     </section>
   `;
 
   const overlayDialog = root.querySelector("#meaning-overlay");
-  const statusEl = root.querySelector("#reading-action-status");
+  const toastEl = root.querySelector("#bottom-toast");
+  let toastTimer;
+
+  const showToast = (message) => {
+    if (!toastEl) return;
+    toastEl.textContent = message;
+    toastEl.classList.add("is-visible");
+    if (toastTimer) window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => {
+      toastEl.classList.remove("is-visible");
+    }, 1800);
+  };
 
   root.querySelector("#reading-back-btn")?.addEventListener("click", () => {
     onBack?.();
@@ -91,16 +102,16 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   root.querySelector("#save-reading-btn")?.addEventListener("click", () => {
     onSave?.(reading);
-    if (statusEl) statusEl.textContent = "Расклад сохранён";
+    showToast("Расклад сохранён");
   });
 
   root.querySelector("#copy-reading-btn")?.addEventListener("click", async () => {
     const text = buildCopyText(reading);
     try {
       await copyToClipboard(text);
-      if (statusEl) statusEl.textContent = "Скопировано в буфер обмена";
+      showToast("Скопировано в буфер обмена");
     } catch {
-      if (statusEl) statusEl.textContent = "Не удалось скопировать";
+      showToast("Не удалось скопировать");
     }
   });
 
