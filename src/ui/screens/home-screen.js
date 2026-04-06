@@ -36,13 +36,16 @@ function buildPresetButtons() {
   `;
 }
 
-export function renderHomeScreen(root, { onDraw, onSettings } = {}) {
+export function renderHomeScreen(root, { onDraw, onSettings, onHistory } = {}) {
   if (!root) return;
   root.innerHTML = `
     <section>
       <div class="home-header">
         <h1>Tarot TDW</h1>
-        <button id="open-settings-btn" type="button" class="secondary-btn">Настройки</button>
+        <div class="home-header__actions">
+          <button id="open-history-btn" type="button" class="secondary-btn">История</button>
+          <button id="open-settings-btn" type="button" class="secondary-btn">Настройки</button>
+        </div>
       </div>
       <p>Выберите количество карт и начните расклад.</p>
       <label for="card-count">Количество карт: <strong id="card-count-value">1</strong></label>
@@ -98,6 +101,10 @@ export function renderHomeScreen(root, { onDraw, onSettings } = {}) {
     onSettings?.();
   });
 
+  root.querySelector("#open-history-btn")?.addEventListener("click", () => {
+    onHistory?.();
+  });
+
   root.querySelector("#draw-btn")?.addEventListener("click", () => {
     if (typeof modal?.showModal === "function") {
       modal.showModal();
@@ -106,10 +113,15 @@ export function renderHomeScreen(root, { onDraw, onSettings } = {}) {
 
     const fallbackQuestion = window.prompt("Введите вопрос", "") || "";
     const fallbackContext = window.prompt("Тема (general/relationships/career/advice)", "general") || "general";
+    const allowedContexts = new Set(["general", "relationships", "career", "advice"]);
+    const normalizedContext = allowedContexts.has(fallbackContext) ? fallbackContext : "general";
+    if (normalizedContext !== fallbackContext) {
+      window.alert("Указан неизвестный контекст. Применён общий контекст: general.");
+    }
     onDraw?.({
       cardCount: Number(cardCountInput?.value) || 1,
       question: fallbackQuestion.trim(),
-      context: fallbackContext,
+      context: normalizedContext,
       spreadId: selectedSpreadId
     });
   });

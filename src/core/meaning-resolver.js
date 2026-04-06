@@ -7,9 +7,13 @@ const CONTEXT_ALIAS = {
   advice: "advice"
 };
 
+export function normalizeContext(context = "general") {
+  return CONTEXT_ALIAS[context] || "general";
+}
+
 export function resolveMeaning(card, orientation, context = "general") {
   const safeOrientation = orientation === "reversed" ? "reversed" : "upright";
-  const normalizedContext = CONTEXT_ALIAS[context] || "general";
+  const normalizedContext = normalizeContext(context);
   const meaning = card?.meanings?.[safeOrientation] || {};
 
   return {

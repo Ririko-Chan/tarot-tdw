@@ -73,6 +73,9 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   const spreadTitle = reading?.spread?.name ? `<p><strong>Расклад:</strong> ${escapeHtml(reading.spread.name)}</p>` : "";
   const hint = reading?.hint ? `<p><strong>Подсказка колоды:</strong> ${escapeHtml(reading.hint)}</p>` : "";
+  const contextNote = reading?.requestedContext && reading?.requestedContext !== reading?.context
+    ? `<p><strong>Контекст скорректирован:</strong> использован ${escapeHtml(reading.context)} вместо ${escapeHtml(reading.requestedContext)}.</p>`
+    : "";
 
   root.innerHTML = `
     <section>
@@ -82,6 +85,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
       </div>
       <p><strong>Вопрос:</strong> ${escapeHtml(reading?.question || "—")}</p>
       ${spreadTitle}
+      ${contextNote}
       ${hint}
       <div class="reading-actions">
         <button id="save-reading-btn" type="button">Сохранить</button>

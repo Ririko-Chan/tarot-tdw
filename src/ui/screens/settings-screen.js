@@ -12,6 +12,10 @@ export function renderSettingsScreen(root, settings, { onBack, onSave } = {}) {
     hintChance: toNumber(settings?.hintChance, 15)
   };
 
+  const deckOptions = Array.isArray(settings?.deckOptions) && settings.deckOptions.length > 0
+    ? settings.deckOptions
+    : [{ id: "rider-waite", name: "Rider-Waite" }];
+
   root.innerHTML = `
     <section>
       <div class="screen-header">
@@ -22,7 +26,9 @@ export function renderSettingsScreen(root, settings, { onBack, onSave } = {}) {
       <form id="settings-form" class="settings-form">
         <label for="deck-select">Колода</label>
         <select id="deck-select" name="deckId">
-          <option value="rider-waite" ${safeSettings.deckId === "rider-waite" ? "selected" : ""}>Rider-Waite</option>
+          ${deckOptions.map((deck) => (
+            `<option value="${deck.id}" ${safeSettings.deckId === deck.id ? "selected" : ""}>${deck.name}</option>`
+          )).join("")}
         </select>
 
         <label for="reversed-chance">Перевёрнутые карты: <strong id="reversed-value">${safeSettings.reversedChance}%</strong></label>
