@@ -1,6 +1,11 @@
 import { buildMeaningOverlay } from "../components/card-meaning-overlay.js";
 import { renderTarotCard } from "../components/tarot-card.js";
 
+const CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
+const APPEAR_DELAY_MS = 180;
+const FLIP_DELAY_MS = 180;
+const FIRST_CARD_DELAY_MS = 120;
+
 function escapeHtml(value) {
   return String(value || "")
     .replaceAll("&", "&amp;")
@@ -48,12 +53,19 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
-    const reversedClass = viewModel.orientation === "reversed" ? "card-image--reversed" : "";
 
     return `
-      <li class="reading-card-item" data-card-index="${index}">
-        <button type="button" class="meaning-open-btn" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}">
-          <img class="card-image ${reversedClass}" src="${escapeHtml(viewModel.image)}" alt="${escapeHtml(viewModel.title)}" loading="lazy" />
+      <li class="reading-card-item reading-card-item--hidden" data-card-index="${index}">
+        <button type="button" class="meaning-open-btn meaning-open-btn--disabled" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}" disabled>
+          <img
+            class="card-image card-image--is-back"
+            src="${CARD_BACK_IMAGE}"
+            alt="Рубашка карты"
+            loading="lazy"
+            data-front-image="${escapeHtml(viewModel.image)}"
+            data-front-title="${escapeHtml(viewModel.title)}"
+            data-orientation="${escapeHtml(viewModel.orientation)}"
+          />
         </button>
       </li>
     `;
@@ -84,7 +96,10 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   const overlayDialog = root.querySelector("#meaning-overlay");
   const toastEl = root.querySelector("#bottom-toast");
+  const cardItems = Array.from(root.querySelectorAll(".reading-card-item"));
+  const cardButtons = Array.from(root.querySelectorAll(".meaning-open-btn"));
   let toastTimer;
+  let isAnimatingCards = cardItems.length > 0;
 
   const showToast = (message) => {
     if (!toastEl) return;
@@ -117,6 +132,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   root.querySelectorAll(".meaning-open-btn").forEach((button) => {
     button.addEventListener("click", () => {
+      if (isAnimatingCards) return;
       const index = Number(button.getAttribute("data-card-index"));
       const entry = reading?.cards?.[index];
       if (!entry || !overlayDialog) return;
@@ -143,4 +159,46 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
       }
     });
   });
+
+  cardItems.forEach((item, index) => {
+    window.setTimeout(() => {
+      item.classList.remove("reading-card-item--hidden");
+      item.classList.add("reading-card-item--visible");
+    }, FIRST_CARD_DELAY_MS + index * APPEAR_DELAY_MS);
+  });
+
+  const totalRevealTime = FIRST_CARD_DELAY_MS + cardItems.length * APPEAR_DELAY_MS;
+  cardButtons.forEach((button, index) => {
+    window.setTimeout(() => {
+      const image = button.querySelector(".card-image");
+      if (!image) return;
+
+      image.classList.add("card-image--flipping");
+      window.setTimeout(() => {
+        const frontImage = image.getAttribute("data-front-image") || "";
+        const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
+        const orientation = image.getAttribute("data-orientation");
+
+        image.setAttribute("src", frontImage);
+        image.setAttribute("alt", frontTitle);
+        image.classList.remove("card-image--is-back");
+        if (orientation === "reversed") {
+          image.classList.add("card-image--reversed");
+        }
+      }, 220);
+
+      window.setTimeout(() => {
+        image.classList.remove("card-image--flipping");
+      }, 460);
+    }, totalRevealTime + index * FLIP_DELAY_MS);
+  });
+
+  const totalFlipTime = totalRevealTime + cardButtons.length * FLIP_DELAY_MS + 460;
+  window.setTimeout(() => {
+    isAnimatingCards = false;
+    cardButtons.forEach((button) => {
+      button.disabled = false;
+      button.classList.remove("meaning-open-btn--disabled");
+    });
+  }, totalFlipTime);
 }

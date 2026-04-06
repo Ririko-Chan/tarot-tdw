@@ -157,6 +157,19 @@ button {
 .reading-card-item {
   display: flex;
   justify-content: center;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.reading-card-item--hidden {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.reading-card-item--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .meaning-open-btn {
@@ -164,6 +177,10 @@ button {
   cursor: pointer;
   border-radius: 10px;
   display: inline-flex;
+}
+
+.meaning-open-btn--disabled {
+  cursor: default;
 }
 
 .meaning-open-btn:focus-visible {
@@ -181,6 +198,10 @@ button {
   transition: transform 0.2s ease;
 }
 
+.card-image--is-back {
+  filter: saturate(0.9) brightness(0.96);
+}
+
 .meaning-open-btn:hover .card-image {
   transform: translateY(-2px);
 }
@@ -191,6 +212,24 @@ button {
 
 .meaning-open-btn:hover .card-image--reversed {
   transform: rotate(180deg) translateY(-2px);
+}
+
+.card-image--flipping {
+  animation: card-flip 0.46s ease-in-out;
+}
+
+@keyframes card-flip {
+  0% {
+    transform: rotateY(0deg) scaleX(1);
+  }
+
+  50% {
+    transform: rotateY(90deg) scaleX(0.1);
+  }
+
+  100% {
+    transform: rotateY(0deg) scaleX(1);
+  }
 }
 
 .meaning-overlay__content {
