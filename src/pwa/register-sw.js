@@ -1,5 +1,7 @@
 export function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js");
-  }
+  if (!("serviceWorker" in navigator)) return;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
 }
