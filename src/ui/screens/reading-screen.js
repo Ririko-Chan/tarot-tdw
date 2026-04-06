@@ -10,13 +10,12 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function renderOverlayModal(overlay) {
+function renderOverlayModal() {
   return `
     <dialog id="meaning-overlay" class="meaning-overlay">
-      <article>
-        <h3>${escapeHtml(overlay.title)}</h3>
-        <p><strong>Ключевые слова:</strong> ${escapeHtml((overlay.keywords || []).join(", ") || "—")}</p>
-        <p>${escapeHtml(overlay.text || "—")}</p>
+      <article class="meaning-overlay__content">
+        <h3>Карта</h3>
+        <p>Нажмите на карту, чтобы посмотреть трактовку.</p>
         <button type="button" id="close-overlay-btn">Закрыть</button>
       </article>
     </dialog>
@@ -29,18 +28,12 @@ export function renderReadingScreen(root, reading) {
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
     const reversedClass = viewModel.orientation === "reversed" ? "card-image--reversed" : "";
-    const position = entry.position ? `<p><em>${escapeHtml(entry.position)}</em></p>` : "";
 
     return `
       <li class="reading-card-item" data-card-index="${index}">
-        <button type="button" class="meaning-open-btn" data-card-index="${index}">
+        <button type="button" class="meaning-open-btn" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}">
           <img class="card-image ${reversedClass}" src="${escapeHtml(viewModel.image)}" alt="${escapeHtml(viewModel.title)}" loading="lazy" />
         </button>
-        <div>
-          <strong>${escapeHtml(viewModel.title)}</strong> (${escapeHtml(viewModel.orientation)})
-          ${position}
-          <p>${escapeHtml(entry.meaning.text)}</p>
-        </div>
       </li>
     `;
   }).join("");
@@ -54,8 +47,9 @@ export function renderReadingScreen(root, reading) {
       <p><strong>Вопрос:</strong> ${escapeHtml(reading?.question || "—")}</p>
       ${spreadTitle}
       ${hint}
-      <ul class="reading-list">${items}</ul>
-      ${renderOverlayModal({ title: "", keywords: [], text: "" })}
+      <p class="reading-help">Нажмите на карту, чтобы открыть её трактовку.</p>
+      <ul class="reading-list reading-list--cards">${items}</ul>
+      ${renderOverlayModal()}
     </section>
   `;
 
@@ -68,9 +62,12 @@ export function renderReadingScreen(root, reading) {
       if (!entry || !overlayDialog) return;
 
       const overlay = buildMeaningOverlay(entry.meaning);
+      const positionLine = entry.position ? `<p><strong>Позиция:</strong> ${escapeHtml(entry.position)}</p>` : "";
+
       overlayDialog.innerHTML = `
-        <article>
+        <article class="meaning-overlay__content">
           <h3>${escapeHtml(overlay.title)}</h3>
+          ${positionLine}
           <p><strong>Ключевые слова:</strong> ${escapeHtml((overlay.keywords || []).join(", ") || "—")}</p>
           <p>${escapeHtml(overlay.text || "—")}</p>
           <button type="button" id="close-overlay-btn">Закрыть</button>

@@ -15,18 +15,24 @@ function buildPreDrawModal() {
           <option value="advice">Совет</option>
         </select>
 
-        <label for="spread-select">Тип расклада</label>
-        <select id="spread-select" name="spreadId">
-          <option value="free-1-24">Свободный (1-24)</option>
-          <option value="horseshoe">Подкова (7 карт)</option>
-        </select>
-
         <menu>
           <button value="cancel" type="button" id="cancel-draw-btn">Отмена</button>
           <button value="confirm" type="submit">Сделать расклад</button>
         </menu>
       </form>
     </dialog>
+  `;
+}
+
+function buildPresetButtons() {
+  return `
+    <div class="spread-presets">
+      <p class="spread-presets__label">Готовые расклады:</p>
+      <div class="spread-presets__buttons" role="group" aria-label="Готовые расклады">
+        <button type="button" class="spread-preset-btn is-active" data-spread-id="free-1-24">Свободный</button>
+        <button type="button" class="spread-preset-btn" data-spread-id="horseshoe">Подкова (7)</button>
+      </div>
+    </div>
   `;
 }
 
@@ -39,6 +45,7 @@ export function renderHomeScreen(root, { onDraw } = {}) {
       <label for="card-count">Количество карт: <strong id="card-count-value">1</strong></label>
       <input id="card-count" type="range" min="1" max="24" step="1" value="1" />
       <button id="draw-btn">Вытянуть</button>
+      ${buildPresetButtons()}
       ${buildPreDrawModal()}
     </section>
   `;
@@ -48,6 +55,9 @@ export function renderHomeScreen(root, { onDraw } = {}) {
   const modal = root.querySelector("#pre-draw-modal");
   const form = root.querySelector("#pre-draw-form");
   const cancelBtn = root.querySelector("#cancel-draw-btn");
+  const spreadButtons = Array.from(root.querySelectorAll(".spread-preset-btn"));
+
+  let selectedSpreadId = "free-1-24";
 
   const updateCardCountUi = () => {
     if (!cardCountValue || !cardCountInput) return;
@@ -55,23 +65,34 @@ export function renderHomeScreen(root, { onDraw } = {}) {
   };
 
   const applySpreadRules = () => {
-    if (!form || !cardCountInput) return;
-    const spreadSelect = form.querySelector("#spread-select");
-    if (spreadSelect?.value === "horseshoe") {
+    if (!cardCountInput) return;
+
+    if (selectedSpreadId === "horseshoe") {
       cardCountInput.value = "7";
       cardCountInput.disabled = true;
     } else {
       cardCountInput.disabled = false;
     }
+
+    spreadButtons.forEach((button) => {
+      const isActive = button.getAttribute("data-spread-id") === selectedSpreadId;
+      button.classList.toggle("is-active", isActive);
+    });
+
     updateCardCountUi();
   };
 
+  spreadButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedSpreadId = button.getAttribute("data-spread-id") || "free-1-24";
+      applySpreadRules();
+    });
+  });
+
   cardCountInput?.addEventListener("input", updateCardCountUi);
-  form?.querySelector("#spread-select")?.addEventListener("change", applySpreadRules);
 
   root.querySelector("#draw-btn")?.addEventListener("click", () => {
     if (typeof modal?.showModal === "function") {
-      applySpreadRules();
       modal.showModal();
       return;
     }
@@ -82,7 +103,7 @@ export function renderHomeScreen(root, { onDraw } = {}) {
       cardCount: Number(cardCountInput?.value) || 1,
       question: fallbackQuestion.trim(),
       context: fallbackContext,
-      spreadId: "free-1-24"
+      spreadId: selectedSpreadId
     });
   });
 
@@ -95,17 +116,16 @@ export function renderHomeScreen(root, { onDraw } = {}) {
 
     const questionInput = form.querySelector("#question-input");
     const contextSelect = form.querySelector("#context-select");
-    const spreadSelect = form.querySelector("#spread-select");
 
     onDraw?.({
       cardCount: Number(cardCountInput?.value) || 1,
       question: questionInput?.value?.trim() || "",
       context: contextSelect?.value || "general",
-      spreadId: spreadSelect?.value || "free-1-24"
+      spreadId: selectedSpreadId
     });
 
     modal?.close("confirm");
   });
 
-  updateCardCountUi();
+  applySpreadRules();
 }
