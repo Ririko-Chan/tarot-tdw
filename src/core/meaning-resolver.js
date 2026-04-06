@@ -8,7 +8,8 @@ const CONTEXT_ALIAS = {
 };
 
 export function normalizeContext(context = "general") {
-  return CONTEXT_ALIAS[context] || "general";
+  const normalizedInput = String(context || "").trim().toLowerCase();
+  return CONTEXT_ALIAS[normalizedInput] || "general";
 }
 
 export function resolveMeaning(card, orientation, context = "general") {
