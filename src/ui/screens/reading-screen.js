@@ -6,6 +6,8 @@ const APPEAR_DELAY_MS = 180;
 const FLIP_DELAY_MS = 180;
 const FIRST_CARD_DELAY_MS = 120;
 const PRELOAD_TIMEOUT_MS = 1200;
+const MAX_REVEAL_STAGE_MS = 1200;
+const MAX_FLIP_STAGE_MS = 1200;
 
 function escapeHtml(value) {
   return String(value || "")
@@ -64,6 +66,12 @@ function preloadCardFrontImages(cardButtons = []) {
   }));
 
   return Promise.allSettled(preloadTasks);
+}
+
+function resolveStepDelay(baseStep, count, maxStageMs) {
+  const safeCount = Math.max(1, count);
+  const adaptiveStep = Math.floor(maxStageMs / safeCount);
+  return Math.max(40, Math.min(baseStep, adaptiveStep));
 }
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
@@ -183,14 +191,18 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   });
 
   const startAnimation = () => {
+    const appearStepMs = resolveStepDelay(APPEAR_DELAY_MS, cardItems.length, MAX_REVEAL_STAGE_MS);
+    const flipStepMs = resolveStepDelay(FLIP_DELAY_MS, cardButtons.length, MAX_FLIP_STAGE_MS);
+    const firstCardDelayMs = Math.min(FIRST_CARD_DELAY_MS, appearStepMs);
+
     cardItems.forEach((item, index) => {
       window.setTimeout(() => {
         item.classList.remove("reading-card-item--hidden");
         item.classList.add("reading-card-item--visible");
-      }, FIRST_CARD_DELAY_MS + index * APPEAR_DELAY_MS);
+      }, firstCardDelayMs + index * appearStepMs);
     });
 
-    const totalRevealTime = FIRST_CARD_DELAY_MS + cardItems.length * APPEAR_DELAY_MS;
+    const totalRevealTime = firstCardDelayMs + cardItems.length * appearStepMs;
     cardButtons.forEach((button, index) => {
       window.setTimeout(() => {
         const image = button.querySelector(".card-image");
@@ -200,23 +212,21 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         window.setTimeout(() => {
           const frontImage = image.getAttribute("data-front-image") || "";
           const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
-          const orientation = image.getAttribute("data-orientation");
 
           image.setAttribute("src", frontImage);
           image.setAttribute("alt", frontTitle);
           image.classList.remove("card-image--is-back");
-          if (orientation === "reversed") {
-            image.classList.add("card-image--reversed");
-          }
         }, 220);
 
         window.setTimeout(() => {
+          const orientation = image.getAttribute("data-orientation");
           image.classList.remove("card-image--flipping");
+          image.classList.toggle("card-image--reversed", orientation === "reversed");
         }, 460);
-      }, totalRevealTime + index * FLIP_DELAY_MS);
+      }, totalRevealTime + index * flipStepMs);
     });
 
-    const totalFlipTime = totalRevealTime + cardButtons.length * FLIP_DELAY_MS + 460;
+    const totalFlipTime = totalRevealTime + cardButtons.length * flipStepMs + 460;
     window.setTimeout(() => {
       isAnimatingCards = false;
       cardButtons.forEach((button) => {
