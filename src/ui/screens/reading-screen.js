@@ -5,6 +5,7 @@ const CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
 const APPEAR_DELAY_MS = 180;
 const FLIP_DELAY_MS = 180;
 const FIRST_CARD_DELAY_MS = 120;
+const PRELOAD_TIMEOUT_MS = 1200;
 
 function escapeHtml(value) {
   return String(value || "")
@@ -46,6 +47,23 @@ async function copyToClipboard(text) {
   fallback.select();
   document.execCommand("copy");
   document.body.removeChild(fallback);
+}
+
+function preloadCardFrontImages(cardButtons = []) {
+  const uniqueSources = Array.from(new Set(
+    cardButtons
+      .map((button) => button.querySelector(".card-image")?.getAttribute("data-front-image") || "")
+      .filter(Boolean)
+  ));
+
+  const preloadTasks = uniqueSources.map((src) => new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+    image.src = src;
+  }));
+
+  return Promise.allSettled(preloadTasks);
 }
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
@@ -164,45 +182,52 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
     });
   });
 
-  cardItems.forEach((item, index) => {
-    window.setTimeout(() => {
-      item.classList.remove("reading-card-item--hidden");
-      item.classList.add("reading-card-item--visible");
-    }, FIRST_CARD_DELAY_MS + index * APPEAR_DELAY_MS);
-  });
-
-  const totalRevealTime = FIRST_CARD_DELAY_MS + cardItems.length * APPEAR_DELAY_MS;
-  cardButtons.forEach((button, index) => {
-    window.setTimeout(() => {
-      const image = button.querySelector(".card-image");
-      if (!image) return;
-
-      image.classList.add("card-image--flipping");
+  const startAnimation = () => {
+    cardItems.forEach((item, index) => {
       window.setTimeout(() => {
-        const frontImage = image.getAttribute("data-front-image") || "";
-        const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
-        const orientation = image.getAttribute("data-orientation");
-
-        image.setAttribute("src", frontImage);
-        image.setAttribute("alt", frontTitle);
-        image.classList.remove("card-image--is-back");
-        if (orientation === "reversed") {
-          image.classList.add("card-image--reversed");
-        }
-      }, 220);
-
-      window.setTimeout(() => {
-        image.classList.remove("card-image--flipping");
-      }, 460);
-    }, totalRevealTime + index * FLIP_DELAY_MS);
-  });
-
-  const totalFlipTime = totalRevealTime + cardButtons.length * FLIP_DELAY_MS + 460;
-  window.setTimeout(() => {
-    isAnimatingCards = false;
-    cardButtons.forEach((button) => {
-      button.disabled = false;
-      button.classList.remove("meaning-open-btn--disabled");
+        item.classList.remove("reading-card-item--hidden");
+        item.classList.add("reading-card-item--visible");
+      }, FIRST_CARD_DELAY_MS + index * APPEAR_DELAY_MS);
     });
-  }, totalFlipTime);
+
+    const totalRevealTime = FIRST_CARD_DELAY_MS + cardItems.length * APPEAR_DELAY_MS;
+    cardButtons.forEach((button, index) => {
+      window.setTimeout(() => {
+        const image = button.querySelector(".card-image");
+        if (!image) return;
+
+        image.classList.add("card-image--flipping");
+        window.setTimeout(() => {
+          const frontImage = image.getAttribute("data-front-image") || "";
+          const frontTitle = image.getAttribute("data-front-title") || "Карта таро";
+          const orientation = image.getAttribute("data-orientation");
+
+          image.setAttribute("src", frontImage);
+          image.setAttribute("alt", frontTitle);
+          image.classList.remove("card-image--is-back");
+          if (orientation === "reversed") {
+            image.classList.add("card-image--reversed");
+          }
+        }, 220);
+
+        window.setTimeout(() => {
+          image.classList.remove("card-image--flipping");
+        }, 460);
+      }, totalRevealTime + index * FLIP_DELAY_MS);
+    });
+
+    const totalFlipTime = totalRevealTime + cardButtons.length * FLIP_DELAY_MS + 460;
+    window.setTimeout(() => {
+      isAnimatingCards = false;
+      cardButtons.forEach((button) => {
+        button.disabled = false;
+        button.classList.remove("meaning-open-btn--disabled");
+      });
+    }, totalFlipTime);
+  };
+
+  Promise.race([
+    preloadCardFrontImages(cardButtons),
+    new Promise((resolve) => window.setTimeout(resolve, PRELOAD_TIMEOUT_MS))
+  ]).finally(startAnimation);
 }
