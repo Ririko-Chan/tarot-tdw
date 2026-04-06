@@ -30,6 +30,13 @@ section {
   padding: 1rem;
 }
 
+.home-header,
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
 
 label {
   display: block;
@@ -50,7 +57,38 @@ button {
   cursor: pointer;
 }
 
-#pre-draw-modal {
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.spread-presets {
+  margin-top: 1rem;
+}
+
+.spread-presets__label {
+  margin: 0 0 0.45rem;
+  opacity: 0.9;
+}
+
+.spread-presets__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.spread-preset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.spread-preset-btn.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+#pre-draw-modal,
+.meaning-overlay {
   border: none;
   border-radius: 12px;
   padding: 0;
@@ -59,18 +97,21 @@ button {
   color: var(--fg);
 }
 
-#pre-draw-modal::backdrop {
+#pre-draw-modal::backdrop,
+.meaning-overlay::backdrop {
   background: rgba(0, 0, 0, 0.55);
 }
 
-.pre-draw-form {
+.pre-draw-form,
+.settings-form {
   display: grid;
   gap: 0.6rem;
-  padding: 1rem;
+  padding: 1rem 0 0;
 }
 
 .pre-draw-form textarea,
-.pre-draw-form select {
+.pre-draw-form select,
+.settings-form select {
   width: 100%;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -79,7 +120,8 @@ button {
   padding: 0.55rem 0.65rem;
 }
 
-.pre-draw-form menu {
+.pre-draw-form menu,
+.settings-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
@@ -87,30 +129,93 @@ button {
   margin: 0.5rem 0 0;
 }
 
+.reading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.reading-help {
+  margin-top: 0.25rem;
+  opacity: 0.85;
+}
+
 .reading-list {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.reading-list--cards {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.85rem;
 }
 
 .reading-card-item {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 0.8rem;
-  align-items: start;
+  display: flex;
+  justify-content: center;
+}
+
+.meaning-open-btn {
+  all: unset;
+  cursor: pointer;
+  border-radius: 10px;
+  display: inline-flex;
+}
+
+.meaning-open-btn:focus-visible {
+  outline: 2px solid #b7a5ff;
+  outline-offset: 3px;
 }
 
 .card-image {
-  width: 90px;
-  height: 150px;
+  width: 92px;
+  height: 156px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.meaning-open-btn:hover .card-image {
+  transform: translateY(-2px);
 }
 
 .card-image--reversed {
   transform: rotate(180deg);
+}
+
+.meaning-open-btn:hover .card-image--reversed {
+  transform: rotate(180deg) translateY(-2px);
+}
+
+.meaning-overlay__content {
+  padding: 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.bottom-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.2rem;
+  transform: translate(-50%, 12px);
+  opacity: 0;
+  pointer-events: none;
+  background: rgba(20, 20, 20, 0.92);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+
+.bottom-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }

@@ -9,15 +9,17 @@ export function createReading({
   reversedChance = 0,
   hintChance = 0,
   hints = [],
+  spread = null,
   rng = Math.random
 }) {
   const limitedCount = Math.max(1, Math.min(Number(cardCount) || 1, cards.length));
-  const selected = shuffle(cards, rng).slice(0, limitedCount).map((card) => {
+  const selected = shuffle(cards, rng).slice(0, limitedCount).map((card, index) => {
     const orientation = rollChance(reversedChance, rng) ? "reversed" : "upright";
     return {
       card,
       orientation,
-      meaning: resolveMeaning(card, orientation, context)
+      meaning: resolveMeaning(card, orientation, context),
+      position: spread?.positions?.[index] || null
     };
   });
 
@@ -26,10 +28,11 @@ export function createReading({
     : null;
 
   return {
-    id: createId(),
+    id: createId("reading", rng),
     createdAt: new Date().toISOString(),
     question,
     context,
+    spread: spread ? { id: spread.id, name: spread.name } : null,
     cardCount: limitedCount,
     cards: selected,
     hint
