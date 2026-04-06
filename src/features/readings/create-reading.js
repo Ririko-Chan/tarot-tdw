@@ -29,7 +29,9 @@ export function createReadingUseCase({ question, context, cardCount, spreadId = 
     ...reading,
     deck: {
       id: deck.id,
-      name: deck.name
+      name: deck.name,
+      backImage: deck.backImage,
+      cardImages: deck.cards.map((card) => card.image).filter(Boolean)
     },
     settingsSnapshot: {
       deckId: settings.deckId,

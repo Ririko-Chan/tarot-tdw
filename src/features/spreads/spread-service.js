@@ -13,6 +13,8 @@ export function ensureCardCount(spread, cardCount) {
   const min = spread.cardCount?.min ?? 1;
   const max = spread.cardCount?.max ?? 24;
   const normalizedCardCount = Number(cardCount);
-  const safeCardCount = Number.isFinite(normalizedCardCount) ? normalizedCardCount : min;
+  const safeCardCount = Number.isFinite(normalizedCardCount)
+    ? Math.trunc(normalizedCardCount)
+    : min;
   return Math.max(min, Math.min(max, safeCardCount));
 }
