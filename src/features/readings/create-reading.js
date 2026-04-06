@@ -14,7 +14,7 @@ export function createReadingUseCase({ question, context, cardCount, spreadId = 
   const deck = getDeck(settings.deckId);
   const spread = getSpreadById(spreadId);
 
-  return createReading({
+  const reading = createReading({
     cards: deck.cards,
     question,
     context,
@@ -24,4 +24,17 @@ export function createReadingUseCase({ question, context, cardCount, spreadId = 
     hints,
     spread
   });
+
+  return {
+    ...reading,
+    deck: {
+      id: deck.id,
+      name: deck.name
+    },
+    settingsSnapshot: {
+      deckId: settings.deckId,
+      reversedChance: settings.reversedChance,
+      hintChance: settings.hintChance
+    }
+  };
 }

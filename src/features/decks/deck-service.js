@@ -3,15 +3,27 @@ import meta from "../../data/decks/rider-waite/meta.json" with { type: "json" };
 import { assertCard } from "../../core/validators.js";
 
 const DEFAULT_DECK_ID = "rider-waite";
+const DECK_REGISTRY = {
+  "rider-waite": {
+    meta,
+    cards
+  }
+};
+
+export function getAvailableDecks() {
+  return Object.values(DECK_REGISTRY).map(({ meta: deckMeta }) => ({
+    id: deckMeta.id,
+    name: deckMeta.name
+  }));
+}
 
 export function getDeck(deckId = DEFAULT_DECK_ID) {
-  if (deckId !== DEFAULT_DECK_ID) {
-    return getDeck(DEFAULT_DECK_ID);
-  }
+  const normalizedDeckId = DECK_REGISTRY[deckId] ? deckId : DEFAULT_DECK_ID;
+  const selectedDeck = DECK_REGISTRY[normalizedDeckId];
 
-  const validatedCards = cards.map(assertCard);
+  const validatedCards = selectedDeck.cards.map(assertCard);
   return {
-    ...meta,
+    ...selectedDeck.meta,
     cards: validatedCards
   };
 }
