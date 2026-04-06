@@ -22,7 +22,28 @@ function renderOverlayModal() {
   `;
 }
 
-export function renderReadingScreen(root, reading) {
+function buildCopyText(reading) {
+  return (reading?.cards || []).map((entry, index) => {
+    const reversed = entry.orientation === "reversed" ? " (перевернута)" : "";
+    return `${index + 1}. ${entry.card.name}${reversed}`;
+  }).join("\n");
+}
+
+async function copyToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const fallback = document.createElement("textarea");
+  fallback.value = text;
+  document.body.appendChild(fallback);
+  fallback.select();
+  document.execCommand("copy");
+  document.body.removeChild(fallback);
+}
+
+export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   if (!root) return;
 
   const items = (reading?.cards || []).map((entry, index) => {
@@ -43,10 +64,18 @@ export function renderReadingScreen(root, reading) {
 
   root.innerHTML = `
     <section>
-      <h2>Расклад</h2>
+      <div class="screen-header">
+        <button id="reading-back-btn" type="button" class="secondary-btn">← Назад</button>
+        <h2>Расклад</h2>
+      </div>
       <p><strong>Вопрос:</strong> ${escapeHtml(reading?.question || "—")}</p>
       ${spreadTitle}
       ${hint}
+      <div class="reading-actions">
+        <button id="save-reading-btn" type="button">Сохранить</button>
+        <button id="copy-reading-btn" type="button" class="secondary-btn">Копировать</button>
+      </div>
+      <p id="reading-action-status" class="reading-action-status" aria-live="polite"></p>
       <p class="reading-help">Нажмите на карту, чтобы открыть её трактовку.</p>
       <ul class="reading-list reading-list--cards">${items}</ul>
       ${renderOverlayModal()}
@@ -54,6 +83,26 @@ export function renderReadingScreen(root, reading) {
   `;
 
   const overlayDialog = root.querySelector("#meaning-overlay");
+  const statusEl = root.querySelector("#reading-action-status");
+
+  root.querySelector("#reading-back-btn")?.addEventListener("click", () => {
+    onBack?.();
+  });
+
+  root.querySelector("#save-reading-btn")?.addEventListener("click", () => {
+    onSave?.(reading);
+    if (statusEl) statusEl.textContent = "Расклад сохранён";
+  });
+
+  root.querySelector("#copy-reading-btn")?.addEventListener("click", async () => {
+    const text = buildCopyText(reading);
+    try {
+      await copyToClipboard(text);
+      if (statusEl) statusEl.textContent = "Скопировано в буфер обмена";
+    } catch {
+      if (statusEl) statusEl.textContent = "Не удалось скопировать";
+    }
+  });
 
   root.querySelectorAll(".meaning-open-btn").forEach((button) => {
     button.addEventListener("click", () => {

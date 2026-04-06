@@ -36,11 +36,14 @@ function buildPresetButtons() {
   `;
 }
 
-export function renderHomeScreen(root, { onDraw } = {}) {
+export function renderHomeScreen(root, { onDraw, onSettings } = {}) {
   if (!root) return;
   root.innerHTML = `
     <section>
-      <h1>Tarot TDW</h1>
+      <div class="home-header">
+        <h1>Tarot TDW</h1>
+        <button id="open-settings-btn" type="button" class="secondary-btn">Настройки</button>
+      </div>
       <p>Выберите количество карт и начните расклад.</p>
       <label for="card-count">Количество карт: <strong id="card-count-value">1</strong></label>
       <input id="card-count" type="range" min="1" max="24" step="1" value="1" />
@@ -90,6 +93,10 @@ export function renderHomeScreen(root, { onDraw } = {}) {
   });
 
   cardCountInput?.addEventListener("input", updateCardCountUi);
+
+  root.querySelector("#open-settings-btn")?.addEventListener("click", () => {
+    onSettings?.();
+  });
 
   root.querySelector("#draw-btn")?.addEventListener("click", () => {
     if (typeof modal?.showModal === "function") {
