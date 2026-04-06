@@ -1,13 +1,20 @@
 import { buildMeaningOverlay } from "../components/card-meaning-overlay.js";
 import { renderTarotCard } from "../components/tarot-card.js";
 
-const CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
+const DEFAULT_CARD_BACK_IMAGE = "./assets/images/rider/back.webp";
 const APPEAR_DELAY_MS = 180;
 const FLIP_DELAY_MS = 180;
 const FIRST_CARD_DELAY_MS = 120;
 const PRELOAD_TIMEOUT_MS = 1200;
 const MAX_REVEAL_STAGE_MS = 1200;
 const MAX_FLIP_STAGE_MS = 1200;
+
+function resolveCardBackImage(backImage) {
+  const candidate = String(backImage || "").trim();
+  if (!candidate) return DEFAULT_CARD_BACK_IMAGE;
+  if (candidate.startsWith("/")) return `.${candidate}`;
+  return candidate;
+}
 
 function escapeHtml(value) {
   return String(value || "")
@@ -76,6 +83,7 @@ function resolveStepDelay(baseStep, count, maxStageMs) {
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   if (!root) return;
+  const cardBackImage = resolveCardBackImage(reading?.deck?.backImage);
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
@@ -86,7 +94,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         <button type="button" class="meaning-open-btn meaning-open-btn--disabled" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}" disabled>
           <img
             class="card-image card-image--is-back ${reversedClass}"
-            src="${CARD_BACK_IMAGE}"
+            src="${escapeHtml(cardBackImage)}"
             alt="Рубашка карты"
             loading="lazy"
             data-front-image="${escapeHtml(viewModel.image)}"
@@ -128,8 +136,17 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   const toastEl = root.querySelector("#bottom-toast");
   const cardItems = Array.from(root.querySelectorAll(".reading-card-item"));
   const cardButtons = Array.from(root.querySelectorAll(".meaning-open-btn"));
+  const cardImages = Array.from(root.querySelectorAll(".card-image"));
   let toastTimer;
   let isAnimatingCards = cardItems.length > 0;
+
+  cardImages.forEach((image) => {
+    image.addEventListener("error", () => {
+      if (image.getAttribute("src") !== DEFAULT_CARD_BACK_IMAGE) {
+        image.setAttribute("src", DEFAULT_CARD_BACK_IMAGE);
+      }
+    }, { once: true });
+  });
 
   const showToast = (message) => {
     if (!toastEl) return;
