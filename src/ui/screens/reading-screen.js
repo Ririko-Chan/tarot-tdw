@@ -9,6 +9,13 @@ const PRELOAD_TIMEOUT_MS = 1200;
 const MAX_REVEAL_STAGE_MS = 1200;
 const MAX_FLIP_STAGE_MS = 1200;
 
+function resolveCardBackImage(backImage) {
+  const candidate = String(backImage || "").trim();
+  if (!candidate) return DEFAULT_CARD_BACK_IMAGE;
+  if (candidate.startsWith("/")) return `.${candidate}`;
+  return candidate;
+}
+
 function escapeHtml(value) {
   return String(value || "")
     .replaceAll("&", "&amp;")
@@ -76,7 +83,7 @@ function resolveStepDelay(baseStep, count, maxStageMs) {
 
 export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   if (!root) return;
-  const cardBackImage = reading?.deck?.backImage || DEFAULT_CARD_BACK_IMAGE;
+  const cardBackImage = resolveCardBackImage(reading?.deck?.backImage);
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
@@ -129,8 +136,17 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
   const toastEl = root.querySelector("#bottom-toast");
   const cardItems = Array.from(root.querySelectorAll(".reading-card-item"));
   const cardButtons = Array.from(root.querySelectorAll(".meaning-open-btn"));
+  const cardImages = Array.from(root.querySelectorAll(".card-image"));
   let toastTimer;
   let isAnimatingCards = cardItems.length > 0;
+
+  cardImages.forEach((image) => {
+    image.addEventListener("error", () => {
+      if (image.getAttribute("src") !== DEFAULT_CARD_BACK_IMAGE) {
+        image.setAttribute("src", DEFAULT_CARD_BACK_IMAGE);
+      }
+    }, { once: true });
+  });
 
   const showToast = (message) => {
     if (!toastEl) return;
