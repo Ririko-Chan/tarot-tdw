@@ -79,18 +79,18 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
 
   const items = (reading?.cards || []).map((entry, index) => {
     const viewModel = renderTarotCard({ card: entry.card, orientation: entry.orientation });
+    const reversedClass = viewModel.orientation === "reversed" ? "card-image--reversed" : "";
 
     return `
       <li class="reading-card-item reading-card-item--hidden" data-card-index="${index}">
         <button type="button" class="meaning-open-btn meaning-open-btn--disabled" data-card-index="${index}" aria-label="Открыть трактовку карты ${escapeHtml(viewModel.title)}" disabled>
           <img
-            class="card-image card-image--is-back"
+            class="card-image card-image--is-back ${reversedClass}"
             src="${CARD_BACK_IMAGE}"
             alt="Рубашка карты"
             loading="lazy"
             data-front-image="${escapeHtml(viewModel.image)}"
             data-front-title="${escapeHtml(viewModel.title)}"
-            data-orientation="${escapeHtml(viewModel.orientation)}"
           />
         </button>
       </li>
@@ -219,9 +219,7 @@ export function renderReadingScreen(root, reading, { onBack, onSave } = {}) {
         }, 220);
 
         window.setTimeout(() => {
-          const orientation = image.getAttribute("data-orientation");
           image.classList.remove("card-image--flipping");
-          image.classList.toggle("card-image--reversed", orientation === "reversed");
         }, 460);
       }, totalRevealTime + index * flipStepMs);
     });
